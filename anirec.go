@@ -1,14 +1,19 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
+  	"gorm.io/driver/sqlite"
 )
 
+var DB *gorm.DB
+
 type Anime struct {
-	Id   int
-	Title string
+	Id   int		`json:"id" gorm:"primary_key"`
+	Title string	`json:"title"`
 }
 
 var animeStore = map[int]*Anime{
@@ -60,10 +65,32 @@ func deleteAnime(c *gin.Context) {
 	}
 }
 
+// @/ 
+func home(c *gin.Context) {
+	c.String(http.StatusOK, "Welcome")
+}
+
+func ConnectDataBase() {
+	database, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+  
+	if err != nil {
+	  panic("Failed to connect to database!")
+	}
+  
+	database.AutoMigrate(&Anime{})
+  
+	DB = database
+  }
+
 func main() {
 	// http.HandleFunc("/", handler)
 	// log.Fatal(http.ListeAndServe(":8080", nil))
+	fmt.Printf("Setting up router")
 	router := gin.Default()
+	fmt.Printf("connecting database")
+	ConnectDataBase()
+
+	router.GET("/", home)
 
 	// CRUD AI for ANIME
 	// CREATE
@@ -78,6 +105,5 @@ func main() {
 
 	// DELETE
 	router.DELETE("/anime/:id", deleteAnime)
-
-	router.Run(":8080")
+	router.Run(":3000")
 }
