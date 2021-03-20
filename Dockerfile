@@ -1,15 +1,13 @@
-From golang 
-
+FROM golang:1.16.2-buster AS builder
 WORKDIR /build 
-
 ADD go.mod . 
 ADD go.sum . 
 RUN go mod download 
+ADD . .
+RUN go build -o app anirec.go 
 
-COPY . .
-
-RUN go build anirec.go 
-
+FROM debian:buster-slim
+WORKDIR /root/
+COPY --from=builder /build/app .
 EXPOSE 3000 
-
-CMD ["./anirec"]
+CMD ["./app"]
