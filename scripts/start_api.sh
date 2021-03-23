@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker run -d -p 3000:3000 --name anirec-api anirec
+docker run -d -p 5000:5000 --name anirec-api anirec-api

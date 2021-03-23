@@ -4,7 +4,10 @@ import (
 	"os"
 	"fmt"
 	"net/http"
-	"github.com/gin-gonic/gin"  
+
+	"github.com/gin-gonic/gin" 
+	"github.com/gin-gonic/contrib/static"
+
 	"anirec/models"
 	"anirec/controllers"
 )
@@ -29,7 +32,8 @@ func main() {
 	fmt.Printf("connecting database")
 	models.InitializeDataBase()
 
-	router.GET("/", home)
+	// router.GET("/", home)
+	router.Use(static.Serve("/", static.LocalFile("./build", true)))
 
 	// CRUD API for ANIME
 	// CREATE
@@ -44,6 +48,6 @@ func main() {
 
 	// DELETE
 	router.DELETE("/item/:id", controllers.DeleteItem)
-	port := ":" + getDefaultEnv("PORT", "3000")
+	port := ":" + getDefaultEnv("PORT", "5000")
 	router.Run(port)
 }
