@@ -1,13 +1,13 @@
 FROM golang:1.16.2-buster AS go_builder
 WORKDIR /api 
-ADD api/src/go.mod api/src/go.sum . 
+ADD api/src/go.mod api/src/go.sum ./
 RUN go mod download 
 ADD api/src .
 RUN go build -o server anirec.go 
 
 FROM node:14.1-alpine AS react_builder
 WORKDIR /app
-ADD app/package.json app/package-lock.json .
+ADD app/package.json app/package-lock.json ./
 ENV PATH="./node_modules/.bin:$PATH"
 RUN npm install
 ADD app .
