@@ -4,10 +4,10 @@ ADD go.mod .
 ADD go.sum . 
 RUN go mod download 
 ADD . .
-RUN go build -o app anirec.go 
+RUN go build -o server anirec.go 
 
 FROM debian:buster-slim
 WORKDIR /root/
-COPY --from=builder /build/app .
+COPY --from=builder /build/server .
 EXPOSE 5000 
-CMD ["./app"]
+CMD ["./server"]
