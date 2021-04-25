@@ -9,7 +9,18 @@ import (
 // POST @/item
 func CreateItem(c *gin.Context) {
 	title := c.PostForm("title")
-	item := models.Item{Title: title}
+	description := c.PostForm("description")
+
+	var media_type models.MediaType
+	// add error checking here
+	media_type.GetMediaType(c.PostForm("media_type"))
+
+	item := models.Item{
+		Title: title, 
+		Description: description,
+		Type: media_type,
+	}
+	
 	models.DB.Create(&item)
 	c.JSON(http.StatusOK, item)
 }

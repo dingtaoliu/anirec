@@ -1,4 +1,4 @@
-package models 
+package models
 
 import (
 	"gorm.io/gorm"
@@ -6,6 +6,10 @@ import (
 
 type Item struct {
 	gorm.Model
-	Title string	`json:"title"`
-	MediaType string `json:"media_type"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Type   MediaType    `json:"media_type"`
 }
+
+
+
