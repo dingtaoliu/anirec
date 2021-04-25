@@ -1,13 +1,12 @@
 import './App.css';
 
 import { Route, Link } from "react-router-dom";
-import Search from './components/Search';
+import Search from './pages/SearchPage';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-          <title>anirec</title>
       </header>
       <div>
         <h1>Find your favourite content</h1>

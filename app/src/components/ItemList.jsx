@@ -1,9 +1,16 @@
 import Item from './Item';
+import ItemPage from '../pages/ItemPage'
+import { Route, Link, Switch } from "react-router-dom";
 
-export function ItemList(props) {
-    return props.items.map((item) => 
-        <Item title={item.title}></Item>
-    );
+export const ItemList = ({itemList=[]}) => {
+    console.log(itemList);
+    return (
+        <> 
+            {itemList.map((item) => 
+                <Item key={item.title} data={item}/>
+            )}
+        </>
+    )
 }
 
 export const ItemListv2 = ({itemList=[]}) => {
