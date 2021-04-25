@@ -4,3 +4,7 @@ anirec
 
 # db 
 test.db
+
+# seed data
+seed_data/*
+data/*

@@ -10,22 +10,6 @@ function App() {
       </header>
       <div>
         <h1>Find your favourite content</h1>
-            {/* <div>
-                <nav>
-                <ul>
-                    <li><Link to="/item">Item</Link></li>
-                    <li><Link to="/items">Item List</Link></li>
-                </ul>
-                </nav>    
-                <Search></Search>    
-            </div>
-
-            <div>
-                <switch>
-                <Route path="/item"><Item title="NEW ITEM!!!"/></Route>
-                <Route path="/items"><ItemList items={dummyItems}/></Route>
-                </switch>
-            </div> */}
             <Search/>
       </div>
     </div>
