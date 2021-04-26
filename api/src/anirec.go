@@ -48,6 +48,11 @@ func main() {
 
 	// DELETE
 	router.DELETE("/item/:id", controllers.DeleteItem)
+
+
+	// SEARCH 
+	router.GET("/search", controllers.SearchItems)
+
 	port := ":" + getDefaultEnv("PORT", "5000")
 	router.Run(port)
 }

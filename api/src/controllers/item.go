@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"github.com/gin-gonic/gin" 
 	"anirec/models"
+	"fmt"
 )
 
 // POST @/item
@@ -63,5 +64,17 @@ func DeleteItem(c *gin.Context) {
 	} else {
 		models.DB.Delete(&item)
 		c.JSON(http.StatusOK, item)
+	}
+}
+
+// GET @/item/:query
+func SearchItems(c *gin.Context) {
+	query := c.Query("query")
+	var items []models.Item
+
+	if err := models.DB.Where("title LIKE ?", fmt.Sprintf("%%%s%%", query)).Find(&items); err != nil {
+		c.JSON(http.StatusOK, items)
+	} else {
+		c.String(http.StatusBadRequest, "Query not found")
 	}
 }

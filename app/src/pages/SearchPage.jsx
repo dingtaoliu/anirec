@@ -18,35 +18,25 @@ const SearchPage = () => {
         {title: "new gundam", desc: "looking forward to this"},
     ]
 
-    const fetchData = async () => {
-        // return await fetch('https://restcountries.eu/rest/v2/all')
-        //   .then(response => response.json())
-        //   .then(data => {
-        //      setCountryList(data) 
-        //      setCountryListDefault(data)
-        //    }
-        // );
-        // fetch('/items')
-        //     .then(res => res.json())
-        //     .then(
-        //         (result) => {
-        //             setAllItems(result);
-        //         },
-        //         () => {
-        //             setAllItems([]);
-        //         }
-        //     );
-        // setAllItems(dummyItems);
-        // setSearchedItems(dummyItems);
-        return;
-    }
-
     const makeQuery = (query) => {
 
-        const filtered = dummyItems.filter(item => {
-            return item.title.toLowerCase().includes(query.toLowerCase())
-        });
-        setSearchedItems(filtered);
+        fetch('/items')
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    const items = result.map((record) => {
+                        return {
+                            title: record.title,
+                            desc: record.description
+                        }
+                    })
+                    setSearchedItems(items);
+                },
+                () => {
+                    setSearchedItems([]);
+                }
+            );
+        // setSearchedItems(filtered);
 
         const queryParams = new URLSearchParams();
         if (query) {

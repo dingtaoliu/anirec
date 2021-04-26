@@ -1,6 +1,6 @@
 # build output
-anirec.exe
-anirec 
+api/src/server.exe
+api/src/server 
 
 # db 
 test.db
