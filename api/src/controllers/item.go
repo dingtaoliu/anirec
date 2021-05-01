@@ -67,7 +67,7 @@ func DeleteItem(c *gin.Context) {
 	}
 }
 
-// GET @/item/:query
+// GET @/search?query=:query
 func SearchItems(c *gin.Context) {
 	query := c.Query("query")
 	var items []models.Item
@@ -77,4 +77,15 @@ func SearchItems(c *gin.Context) {
 	} else {
 		c.String(http.StatusBadRequest, "Query not found")
 	}
+}
+
+// GET @/similarItems/:id
+func SimilarItems(c *gin.Context) {
+	id := c.Param("id")
+	var item models.Item 
+
+	models.DB.First(&item, id)
+	similarItems := item.GetSimilarItems()
+
+	c.JSON(http.StatusOK, similarItems)
 }

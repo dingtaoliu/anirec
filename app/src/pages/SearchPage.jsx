@@ -19,13 +19,20 @@ const SearchPage = () => {
     ]
 
     const makeQuery = (query) => {
-
-        fetch('/items')
+        const queryParams = new URLSearchParams();
+        if (query) {
+            queryParams.append("query", query)
+        } else {
+            queryParams.delete("query")
+        }
+        console.log(queryParams.toString());
+        fetch("/search?" + queryParams.toString())
             .then(res => res.json())
             .then(
                 (result) => {
                     const items = result.map((record) => {
                         return {
+                            id: record.ID,
                             title: record.title,
                             desc: record.description
                         }
@@ -38,19 +45,12 @@ const SearchPage = () => {
             );
         // setSearchedItems(filtered);
 
-        const queryParams = new URLSearchParams();
-        if (query) {
-            queryParams.append("query", query)
-        } else {
-            queryParams.delete("query")
-        }
         history.push({
             pathname: '/search',
             search: queryParams.toString()
         });
     }
 
-    // useEffect(() => {fetchData()}, []);
 	
     return (
         <>
@@ -60,8 +60,8 @@ const SearchPage = () => {
 
             <Switch>
                 {searchedItems.map((item) => 
-                    <Route path={"/".concat(item.title)}> 
-                        <ItemPage data={item}/>
+                    <Route key={item.id} path={"/".concat(item.title)}> 
+                        <ItemPage item={item}/>
                     </Route>
                 )}
                 <Route path="/search">

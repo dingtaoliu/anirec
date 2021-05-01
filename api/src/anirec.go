@@ -53,6 +53,9 @@ func main() {
 	// SEARCH 
 	router.GET("/search", controllers.SearchItems)
 
+	// SIMILAR ITEMS 
+	router.GET("/similarItems/:id", controllers.SimilarItems)
+
 	port := ":" + getDefaultEnv("PORT", "5000")
 	router.Run(port)
 }

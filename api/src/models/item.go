@@ -2,6 +2,7 @@ package models
 
 import (
 	"gorm.io/gorm"
+	"fmt"
 )
 
 type Item struct {
@@ -11,5 +12,11 @@ type Item struct {
 	Type   MediaType    `json:"media_type"`
 }
 
+func (item Item) GetSimilarItems() []Item {
+	var items []Item
 
+	DB.Raw("SELECT * FROM items ORDER BY RAND() LIMIT 4").Scan(&items)
+	fmt.Println(items)
+	return items
+}
 
