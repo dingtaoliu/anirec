@@ -1,59 +1,54 @@
 import {ItemList} from '../components/ItemList';
 import React, { useState, useEffect } from 'react';
-import { Route, Link, Switch, useHistory } from "react-router-dom";
+import { Route, Link, Switch, useHistory, useParams } from "react-router-dom";
 
-const ItemPage = ({item}) => {
-    console.log(item);
-    const [similarItems, setSimilarItems] = useState([])
-    // const getSimilarItems = async (id) => {
-    //     // return [
-    //     //     {title: "SIM 1", desc: "a similar show about something"}, 
-    //     //     {title: "SIM 2", desc: "a similar show about something"}, 
-    //     //     {title: "SIM 3", desc: "a similar show about something"}, 
-    //     //     {title: "SIM 4", desc: "a similar show about something"}, 
-    //     // ]
-    //     const res = await fetch("/similarItems/" + id);
-    //     const data = await res.json();
-    //     // console.log(res)
-    //     // console.log(data)
-    //     return await data.map((record) => {
-    //         return {
-    //             title: record.title,
-    //             desc: record.description
-    //         }
-    //     })
-    // }
+const ItemPage = () => {
+    let { id } = useParams();
+    console.log(id);
+    const [item, setItem] = useState({});
+    const [similarItems, setSimilarItems] = useState([]);
 
     useEffect(async () => {
-        const res = await fetch("/similarItems/" + item.id);
+        fetchItem(id);
+        fetchSimilarItems(id);
+        console.log(item)
+        console.log(similarItems)
+    }, [id])
+
+    const fetchItem = async (id) => {
+        const res = await fetch("/item/" + id);
         const data = await res.json();
-        // console.log(res)
-        // console.log(data)
+        console.log(data);
+        setItem({
+            id: data.ID,
+            title: data.title,
+            desc: data.description
+        })
+    }
+
+    const fetchSimilarItems = async (id) => {
+        const res = await fetch("/similarItems/" + id);
+        const data = await res.json();
         const items = data.map((record) => {
             return {
+                id: record.ID,
                 title: record.title,
                 desc: record.description
             }
         });
-        console.log(items);
         setSimilarItems(items);
-    }, [])
+    }
 
     return (
         <>
             <div>
-                <h1>THIS IS AN ITEM PAGE</h1>
                 <h1>{item.title}</h1>
                 <p>{item.desc}</p>
                 <ItemList itemList={similarItems}/>
             </div>
-            <Switch>
-                {similarItems.map((item) => 
-                    <Route key={item.id} path={"/".concat(item.title)}> 
-                        <ItemPage item={item}/>
-                    </Route>
-                )}
-            </Switch>
+            {/* <Route path={"/item/:id"}> 
+                    <ItemPage />
+            </Route> */}
         </>
     )
 }

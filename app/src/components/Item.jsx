@@ -2,7 +2,7 @@ import { Route, Link } from "react-router-dom";
 
 const Item = ({data}) => {
     return (
-        <Link to={"/".concat(data.title)}>
+        <Link to={"/item/".concat(data.id)}>
             <div>
                 <h1>{data.title}</h1>
                 <p>{data.desc}</p>

@@ -3,9 +3,10 @@ import SearchBar from '../components/SearchBar';
 import {ItemList} from '../components/ItemList';
 import ItemPage from './ItemPage'
 
-import { Route, Link, Switch, useHistory } from "react-router-dom";
+import { Route, Link, Switch, useHistory, useParams } from "react-router-dom";
 
 const SearchPage = () => {
+    let { query } = useParams();
     const [searchedItems, setSearchedItems] = useState([]);
     const history = useHistory()
 
@@ -59,13 +60,16 @@ const SearchPage = () => {
             />
 
             <Switch>
-                {searchedItems.map((item) => 
-                    <Route key={item.id} path={"/".concat(item.title)}> 
-                        <ItemPage item={item}/>
+                {/* {searchedItems.map((item) => 
+                    <Route key={item.id} path={"/:id"}> 
+                        <ItemPage id={id}/>
                     </Route>
-                )}
+                )} */}
                 <Route path="/search">
                     <ItemList itemList={searchedItems}/>
+                </Route>
+                <Route path={"/item/:id"}> 
+                    <ItemPage />
                 </Route>
             </Switch>
         </>
